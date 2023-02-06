@@ -1,0 +1,51 @@
+<?php
+require_once "classes/FormDecorator.php";
+
+class FormWidget
+{
+
+    private string $name;
+    private string $label;
+    private string $value;
+    private $decorator = null;
+
+    public function __construct(string $label, string $name, string $value = "")
+    {
+        $this->name = $name;
+        $this->value = $value;
+        $this->label = $label;
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
+    }
+
+    public function isValid(): bool
+    {
+        return !empty($this->value);
+    }
+
+    public function setDecorator($decorator)
+    {
+        $this->decorator = $decorator;
+    }
+
+    public function getHTML(): string
+    {
+        $html = "
+        <label>{$this->label}</label>
+        <input name='{$this->name}' value='{$this->value}'>
+        ";
+
+        if ($this->decorator instanceof DivDecorator) {
+            $html = $this->decorator->getHTML($html);
+        }
+
+        return $html;
+    }
+}
