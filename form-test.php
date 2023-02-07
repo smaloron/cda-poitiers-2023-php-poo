@@ -14,10 +14,10 @@ $form->addWiget($nom)
     ->addWiget($age)
     ->addWiget(new FormWidget("Votre profession", "prof"));
 
-
-
 $form->hydrate($_POST);
 
-echo $form->getHTML();
-
-var_dump($form);
+if ($form->isPosted() && $form->isValid()) {
+    echo "traitement du formulaire";
+} else {
+    echo $form->getHTML();
+}

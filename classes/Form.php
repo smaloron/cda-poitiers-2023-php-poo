@@ -71,4 +71,15 @@ class Form
             }
         }
     }
+
+    public function isValid(): bool
+    {
+        foreach ($this->widgets as $widget) {
+            if (!$widget->isValid()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
