@@ -17,4 +17,4 @@ $qb->select("*")
 
 echo $qb->getSQL();
 
-var_dump($qb->execute());
+var_dump($qb->execute()->getAll());

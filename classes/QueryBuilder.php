@@ -5,6 +5,7 @@ class QueryBuilder
     private string $tableName;
     private string $fieldList;
     private string $verb;
+    private PDOStatement $statement;
 
     public function __construct(private PDO $pdo)
     {
@@ -32,8 +33,18 @@ class QueryBuilder
 
     public function execute()
     {
-        $statement = $this->pdo->prepare($this->getSQL());
-        $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        $this->statement = $this->pdo->prepare($this->getSQL());
+        $this->statement->execute();
+        return $this;
+    }
+
+    public function getAll()
+    {
+        return $this->statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getOne()
+    {
+        return $this->statement->fetch(PDO::FETCH_ASSOC);
     }
 }
