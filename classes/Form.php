@@ -3,6 +3,7 @@ require_once "classes/FormWidget.php";
 
 class Form
 {
+    private bool $posted = false;
     /**
      * Liste des contrôles de formulaire
      *
@@ -50,7 +51,24 @@ class Form
         $action = empty($this->action) ? "" : "action='{$this->action}'";
         $html = "<form method='{$this->method}' $action>";
         $html .= $this->getWidgetsContent();
+        $html .= "<div><button type='submit' name='submit'>Valider</button></div>";
         $html .= "</form>";
         return $html;
+    }
+
+    public function isPosted(): bool
+    {
+        return $this->posted;
+    }
+
+    public function hydrate(array $data): void
+    {
+        $this->posted = isset($data["submit"]);
+
+        foreach ($data as $key => $val) {
+            if (array_key_exists($key, $this->widgets)) {
+                $this->widgets[$key]->setValue($val);
+            }
+        }
     }
 }

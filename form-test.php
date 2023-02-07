@@ -14,6 +14,10 @@ $form->addWiget($nom)
     ->addWiget($age)
     ->addWiget(new FormWidget("Votre profession", "prof"));
 
-var_dump($form);
+
+
+$form->hydrate($_POST);
 
 echo $form->getHTML();
+
+var_dump($form);
