@@ -16,6 +16,11 @@ class FormWidget
         $this->label = $label;
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     public function getValue(): string
     {
         return $this->value;
