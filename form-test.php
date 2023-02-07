@@ -1,9 +1,5 @@
 <?php
-require_once "classes/FormDecorator.php";
-require "classes/FormWidget.php";
-require "classes/NumberWidget.php";
-require "classes/ComboWidget.php";
-require "classes/Form.php";
+require "autoload.php";
 
 
 $nom = new FormWidget("Votre nom", "nom", "Isadora");
