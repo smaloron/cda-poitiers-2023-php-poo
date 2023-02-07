@@ -11,6 +11,9 @@ $age = new FormWidget("Votre âge", "age");
 
 $form = new Form;
 $form->addWiget($nom)
-    ->addWiget($age);
+    ->addWiget($age)
+    ->addWiget(new FormWidget("Votre profession", "prof"));
 
 var_dump($form);
+
+echo $form->getHTML();

@@ -29,4 +29,28 @@ class Form
         $this->widgets[$widget->getName()] = $widget;
         return $this;
     }
+
+    /**
+     * Concatène les rendus HTML de tous les champs du formulaire
+     *
+     * @return string
+     */
+    private function getWidgetsContent(): string
+    {
+        $content = "";
+        foreach ($this->widgets as $item) {
+            $content .= $item->getHTML();
+        }
+
+        return $content;
+    }
+
+    public function getHTML(): string
+    {
+        $action = empty($this->action) ? "" : "action='{$this->action}'";
+        $html = "<form method='{$this->method}' $action>";
+        $html .= $this->getWidgetsContent();
+        $html .= "</form>";
+        return $html;
+    }
 }
