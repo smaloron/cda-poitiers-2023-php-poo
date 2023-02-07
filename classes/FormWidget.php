@@ -4,10 +4,10 @@ require_once "classes/FormDecorator.php";
 class FormWidget
 {
 
-    private string $name;
-    private string $label;
-    private string $value;
-    private $decorator = null;
+    protected string $name;
+    protected string $label;
+    protected string $value;
+    protected $decorator = null;
 
     public function __construct(string $label, string $name, string $value = "")
     {
