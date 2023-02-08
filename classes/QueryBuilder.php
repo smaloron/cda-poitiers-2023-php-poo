@@ -65,17 +65,28 @@ class QueryBuilder
 
     private function getINSERT(): string
     {
-        return "INSERT";
+        $columns = array_keys($this->params);
+        $placeholders = array_map(
+            function ($item) {
+                return ":$item";
+            },
+            $columns
+        );
+
+        $columnString = implode(",", $columns);
+        $holderString = implode(",", $placeholders);
+
+        return "INSERT INTO {$this->tableName} ($columnString) VALUES ($holderString)";
     }
 
-    public function getSQL()
+    public function getSQL(): string
     {
-        $sql = "{$this->verb} {$this->fieldList} FROM {$this->tableName}";
-        if (!empty($this->where)) {
-            $sql .= " WHERE {$this->where}";
+        $methodName = "get" . $this->verb;
+        if (method_exists($this, $methodName)) {
+            return $this->$methodName();
+        } else {
+            throw new NotImplentedException("la méthode $methodName n'exise pas");
         }
-
-        return $sql;
     }
 
     public function execute()

@@ -12,11 +12,20 @@ $pdo = new PDO(
 
 $qb = new QueryBuilder($pdo);
 
+/*
 $qb->select("*")
     ->from("personnes")
     ->where("personne_id=:id")
-    ->setParams(["id" => 5]);
+    ->setParams(["id" => 5]);*/
 
-//echo $qb->getSQL();
+$qb
+    ->insert(
+        [
+            "nom_region" => "Normandie-Belgique-Franche-Comté-Alsace"
+        ]
+    )
+    ->into("regions");
 
-var_dump($qb->execute()->getOne());
+echo $qb->getSQL();
+
+var_dump($qb->execute());
