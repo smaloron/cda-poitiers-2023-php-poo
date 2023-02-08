@@ -13,8 +13,10 @@ $pdo = new PDO(
 $qb = new QueryBuilder($pdo);
 
 $qb->select("*")
-    ->from("personnes");
+    ->from("personnes")
+    ->where("personne_id=:id")
+    ->setParams(["id" => 5]);
 
-echo $qb->getSQL();
+//echo $qb->getSQL();
 
-var_dump($qb->execute()->getAll());
+var_dump($qb->execute()->getOne());

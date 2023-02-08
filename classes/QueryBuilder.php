@@ -6,6 +6,8 @@ class QueryBuilder
     private string $fieldList;
     private string $verb;
     private PDOStatement $statement;
+    private string $where;
+    private array $params = [];
 
     public function __construct(private PDO $pdo)
     {
@@ -26,15 +28,60 @@ class QueryBuilder
         return $this;
     }
 
+    public function where(string $where): self
+    {
+        $this->where = $where;
+        return $this;
+    }
+
+    public function setParams(array $params): self
+    {
+        $this->params = $params;
+        return $this;
+    }
+
+    public function into(string $table): self
+    {
+        $this->tableName = "`$table`";
+        return $this;
+    }
+
+    public function insert(array $data): self
+    {
+        $this->verb = "INSERT";
+        $this->params = $data;
+        return $this;
+    }
+
+    private function getSELECT(): string
+    {
+        $sql = "{$this->verb} {$this->fieldList} FROM {$this->tableName}";
+        if (!empty($this->where)) {
+            $sql .= " WHERE {$this->where}";
+        }
+
+        return $sql;
+    }
+
+    private function getINSERT(): string
+    {
+        return "INSERT";
+    }
+
     public function getSQL()
     {
-        return "{$this->verb} {$this->fieldList} FROM {$this->tableName} ;";
+        $sql = "{$this->verb} {$this->fieldList} FROM {$this->tableName}";
+        if (!empty($this->where)) {
+            $sql .= " WHERE {$this->where}";
+        }
+
+        return $sql;
     }
 
     public function execute()
     {
         $this->statement = $this->pdo->prepare($this->getSQL());
-        $this->statement->execute();
+        $this->statement->execute($this->params);
         return $this;
     }
 
