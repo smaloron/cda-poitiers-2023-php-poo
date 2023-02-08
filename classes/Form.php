@@ -82,4 +82,19 @@ class Form
 
         return true;
     }
+
+    /**
+     * Retourne un tableau associatif 
+     * des saisies du formulaire
+     *
+     * @return array
+     */
+    public function getData(): array
+    {
+        $data = [];
+        foreach ($this->widgets as $widget) {
+            $data[$widget->getName()] = $widget->getValue();
+        }
+        return $data;
+    }
 }
